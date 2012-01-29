@@ -1,0 +1,41 @@
+#!/bin/bash
+
+hash mplayer 2>&- || { echo >&2 "I require mplayer but it's not installed.  Aborting."; exit 1; }
+hash unrar 2>&- || { echo >&2 "I require mplayer but it's not installed.  Aborting."; exit 1; }
+
+echo $1
+if [ -z $1 ]
+then
+	echo "No parameter set. Using current pwd."
+else
+	echo "Using "$1
+fi
+
+if [ -e *.mkv ]
+then
+	echo "Choosing mkv file"
+	mplayer *.mkv
+	exit
+fi
+
+if [ -e *.avi ]
+then
+	echo "Choosing avi file"
+	mplayer *.avi
+	exit
+fi
+
+if [ -e *.rar ]
+then
+	echo "Choosing rar file"
+	unrar p -inul *.rar | mplayer - 
+	exit
+fi
+
+if [ -e *.part01.rar ]
+then
+	echo "Choosing part01 rarfile"
+	unrar p -inul *-part01.rar | mplayer -
+	exit
+fi
+
