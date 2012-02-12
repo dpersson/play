@@ -25,17 +25,17 @@ then
 	exit
 fi
 
-if [ -e *.rar ]
-then
-	echo "Choosing rar file"
-	unrar p -inul *.rar | mplayer - 
-	exit
-fi
-
 if [ -e *.part01.rar ]
 then
 	echo "Choosing part01 rarfile"
 	unrar p -inul *-part01.rar | mplayer -
+	exit
+fi
+
+if [ -e *.rar ]
+then
+	echo "Choosing rar file"
+	unrar p -inul *.rar | mplayer - 
 	exit
 fi
 
