@@ -1,0 +1,18 @@
+#!/bin/bash
+INPUT="$1"
+OUTPUT="$2"
+VIDEO_CODEC="mpeg2video"
+VIDEO_BITRATE="4096k"
+AUDIO_CODEC="mp2"
+AUDIO_BITRATE="192k"
+AUDIO_SAMPLERATE="48000"
+AUDIO_CHANNELS="2"
+FORMAT="dvd"
+
+if [[ -n "$(echo ${INPUT} | grep ^http://movies.apple.com)" ]]; then
+wget --quiet -U 'QuickTime/7.6.2' ${INPUT} -O - | ffmpeg -y -threads 2 -i - -acodec ac3 -ab 192000 -vcodec mpeg2video -vb 4096000 -f dvd ${OUTPUT} &> /dev/null
+else
+ffmpeg -threads 2 -i "${INPUT}" -vcodec ${VIDEO_CODEC} -b ${VIDEO_BITRATE} \
+-acodec ${AUDIO_CODEC} -ab ${AUDIO_BITRATE} -ar ${AUDIO_SAMPLERATE} -ac ${AUDIO_CHANNELS} \
+-f ${FORMAT} - > "${OUTPUT}" 2>/dev/null
+fi 
